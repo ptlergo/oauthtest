@@ -1,0 +1,21 @@
+{
+  "name": "logintutorial",
+  "version": "1.0.0",
+  "description": "tutorial testing oauth",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Patrick Funom Tunga-Lergo",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "1.4.1",
+    "ejs": "2.4.1",
+    "express": "4.13.4",
+    "express-session": "1.13.0",
+    "morgan": "1.7.0"
+  },
+  "devDependencies": {
+    "nodemon": "1.9.2"
+  }
+}
