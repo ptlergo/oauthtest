@@ -1,4 +1,5 @@
  const User=require('./models/user');
+ const passport=require('passport');
 
 module.exports=function(app){
 
@@ -10,27 +11,18 @@ module.exports=function(app){
 
   app.get('/signup', function(req, res){
 
-    res.render('signup', {message: 'victory'});
+    res.render('signup', {message: req.flash('signupMessage')});
 
   });
 
   //form submission from signup page
-  app.post('/signup', function(req, res){
+  app.post('/signup', passport.authenticate('local-signup', {
 
-    const newUser=new User();
-    //save parameters from route into database
-    newUser.local.username=req.body.email;
-    newUser.local.password=req.body.password;
-    console.log(newUser.local.username+" "+newUser.local.password);
-    //save to database
-    newUser.save(function(err){
-      if(err)
-        throw err;
+    successRedirect: '/',
+    failureRedirect: '/signup',
+    failureFlash: true
 
-    });
-
-    res.redirect('/');
-  });
+  }));
 
   //get parameters from route
   app.get('/:username/:password', function(req, res){
