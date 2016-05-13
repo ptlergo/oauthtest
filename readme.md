@@ -8,3 +8,6 @@ My first OAuth application
 Database
 - mongoose
 -mLab
+
+login and signup views
+- template code from scotch.io

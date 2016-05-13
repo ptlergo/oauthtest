@@ -9,12 +9,23 @@ module.exports=function(app){
 
   });
 
+  app.get('/login', function(req, res){
+
+    res.render('login', {message: req.flash('loginMessage')});
+
+  });
+  app.post('/login', passport.authenticate('local-login', {
+
+    successRedirect: '/profile',
+    failureRedirect: '/login',
+    failureFlash: true
+
+  }));
   app.get('/signup', function(req, res){
 
     res.render('signup', {message: req.flash('signupMessage')});
 
   });
-
   //form submission from signup page
   app.post('/signup', passport.authenticate('local-signup', {
 
@@ -23,6 +34,12 @@ module.exports=function(app){
     failureFlash: true
 
   }));
+
+  app.get('/profile', isLoggedIn, function(req, res){
+
+    res.render('profile', {user: req.user});
+
+  });
 
   //get parameters from route
   app.get('/:username/:password', function(req, res){
@@ -44,3 +61,16 @@ module.exports=function(app){
 
   });
 };
+
+//isLoggedIn function
+function isLoggedIn(req, res, next){
+
+  if(req.isAuthenticated()){
+
+    return next();
+
+  }
+
+  res.redirect('/login');
+
+}
