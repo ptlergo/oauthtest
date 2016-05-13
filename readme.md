@@ -9,5 +9,5 @@ Database
 - mongoose
 -mLab
 
-login and signup views
+login, signup, and profile views
 - template code from scotch.io

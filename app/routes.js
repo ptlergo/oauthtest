@@ -60,6 +60,13 @@ module.exports=function(app){
     res.send('success');
 
   });
+
+  app.get('/logout', function(req, res){
+    //passport function logout
+    req.logout();
+    res.redirect('/');
+
+  });
 };
 
 //isLoggedIn function
