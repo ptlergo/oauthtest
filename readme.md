@@ -4,6 +4,7 @@ My first OAuth application
 - ejs
 - morgan
 - express
+- passport-facebook
 
 Database
 - mongoose
