@@ -1,5 +1,7 @@
 const LocalStrategy=require('passport-local').Strategy;
+const FacebookStrategy=require('passport-facebook').Strategy;
 const User=require('../app/models/user');
+const configAuth=require('./auth');
 
 module.exports=function(passport){
 
@@ -12,6 +14,7 @@ module.exports=function(passport){
   passport.deserializeUser(function(id, done){
 
     User.findById(id, function(err, user){
+
 
       done(err, user);
 
@@ -79,6 +82,50 @@ passport.use('local-login', new LocalStrategy({
 
       });
     });
+  }
+));
+
+passport.use(new FacebookStrategy({
+    clientID: configAuth.facebookAuth.clientID,
+    clientSecret: configAuth.facebookAuth.clientSecret,
+    callbackURL: configAuth.facebookAuth.callbackURL,
+    profileFields: ['id', 'emails' , 'name']
+
+  },
+  function(accessToken, refreshToken, profile, done) {
+
+    process.nextTick(function(){
+      User.findOne({'facebook.id': profile.id}, function(err, user){
+
+        if(err)
+          return done(err);
+        //if theres a user then done
+        if(user)
+          return done(null, user);
+
+        //no user found, create one
+        else{
+
+          const newUser= new User();
+          newUser.facebook.id=profile.id;
+          newUser.facebook.token=accessToken;
+          newUser.facebook.name=profile.name.givenName+''+profile.name.facebook;
+          newUser.facebook.email=profile.emails[0].value;
+
+          //save user
+          newUser.save(function(err){
+            if(err)
+              throw err;
+            else {
+              return done(null, user);
+            }
+          });
+        }//end of else
+
+      });
+
+    });
+
   }
 ));
 

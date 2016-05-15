@@ -6,6 +6,13 @@ My first OAuth application
 - express
 - passport-facebook
 
+add
+```javascript
+profileFields: ['id', 'emails' , 'name']
+```
+
+into FacebookStrategy to bypass error
+
 Database
 - mongoose
 -mLab
